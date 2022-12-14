@@ -10,7 +10,7 @@ class HomeRepositoryImpl implements HomeRepository {
         .where('userId', isEqualTo: userId)
         .get();
 
-    final document = response.docs[0].data();
+    final document = response.docs.first.data();
 
     final userData = UserData.fromMap(document);
 
