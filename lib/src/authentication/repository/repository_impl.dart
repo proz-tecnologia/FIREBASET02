@@ -1,4 +1,6 @@
 import 'package:class_finance_app/src/authentication/repository/repository.dart';
+import 'package:class_finance_app/src/shared/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -10,8 +12,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    await Future.delayed(const Duration(seconds: 2));
-
     await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -51,5 +51,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String user,
   }) async {
     return await _auth.sendPasswordResetEmail(email: user);
+  }
+
+  @override
+  Future<void> createUserData({required AppUser user}) async {
+    await FirebaseFirestore.instance.collection('users').add(
+          user.toMap(),
+        );
   }
 }
