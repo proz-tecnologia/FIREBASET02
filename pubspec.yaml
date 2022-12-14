@@ -41,6 +41,7 @@ dependencies:
   flutter_modular: ^5.0.3
   flutter_bloc: ^8.1.1
   firebase_auth: ^4.2.0
+  cloud_firestore: ^4.2.0
 
 dev_dependencies:
   flutter_test:
