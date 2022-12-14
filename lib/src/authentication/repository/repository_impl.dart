@@ -54,7 +54,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> createUserData({required AppUser user}) async {
+  Future<void> createUserData({required UserData user}) async {
     await FirebaseFirestore.instance.collection('users').add(
           user.toMap(),
         );

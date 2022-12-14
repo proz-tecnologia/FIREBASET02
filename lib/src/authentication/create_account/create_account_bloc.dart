@@ -27,7 +27,7 @@ class CreateAccountCubit extends Cubit<CreateAccountState> {
       );
 
       await repository.createUserData(
-        user: AppUser(
+        user: UserData(
           userName: name,
           userId: repository.getUser()!.uid,
         ),

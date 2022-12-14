@@ -19,7 +19,7 @@ abstract class AuthRepository {
 
   Future<void> recoveryPassword({required String user});
 
-  Future<void> createUserData({required AppUser user});
+  Future<void> createUserData({required UserData user});
 
   User? getUser();
 }
