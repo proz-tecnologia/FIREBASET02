@@ -14,7 +14,9 @@ import 'create_account/create_account_page.dart';
 class AuthenticationModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind.factory<AuthRepository>((i) => AuthRepositoryImpl()),
+        Bind.factory<AuthRepository>(
+          (i) => AuthRepositoryImpl(),
+        ),
         Bind.lazySingleton<SplashBloc>(
           (i) => SplashBloc(
             repository: i.get<AuthRepository>(),

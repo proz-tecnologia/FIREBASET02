@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../app_controller.dart';
+
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
@@ -14,6 +16,8 @@ class SplashPage extends StatelessWidget {
         bloc: Modular.get<SplashBloc>()..setup(),
         listener: (context, state) {
           if (state is SplashStateLogged) {
+            Modular.get<AppController>().setUser(state.user);
+
             Modular.to.pushReplacementNamed('/home/');
           } else if (state is SplashStateNotLogged) {
             Modular.to.pushReplacementNamed('/login');

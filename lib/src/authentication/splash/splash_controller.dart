@@ -6,6 +6,7 @@ import '../repository/repository.dart';
 
 class SplashBloc extends Cubit<SplashState> {
   final AuthRepository repository;
+
   SplashBloc({required this.repository}) : super(SplashStateLoading());
 
   Future<void> setup() async {
@@ -29,7 +30,7 @@ class SplashBloc extends Cubit<SplashState> {
     final user = repository.getUser();
 
     if (user != null) {
-      emit(SplashStateLogged());
+      emit(SplashStateLogged(user: user));
     } else {
       emit(SplashStateNotLogged());
     }

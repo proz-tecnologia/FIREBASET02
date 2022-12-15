@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../app_controller.dart';
 import 'login_state.dart';
 
 class LoginPage extends StatefulWidget {
@@ -40,8 +41,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else if (state is LoginStateSuccess) {
+          Modular.get<AppController>().setUser(state.user);
+
           Navigator.pop(context);
-          //TODO: create home and navigate
+          Modular.to.pushReplacementNamed('/home/');
         }
       },
       child: Scaffold(
