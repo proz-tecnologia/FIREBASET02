@@ -4,21 +4,25 @@ class UserData {
   final double balance;
   final String userId;
   final String userName;
+  final String? docId;
   UserData({
     this.balance = 0.0,
     required this.userId,
     required this.userName,
+    this.docId,
   });
 
   UserData copyWith({
     double? balance,
     String? userId,
     String? userName,
+    String? docId,
   }) {
     return UserData(
       balance: balance ?? this.balance,
       userId: userId ?? this.userId,
       userName: userName ?? this.userName,
+      docId: docId ?? this.docId,
     );
   }
 
@@ -27,6 +31,7 @@ class UserData {
       'balance': balance,
       'userId': userId,
       'userName': userName,
+      'docId': docId,
     };
   }
 
@@ -35,6 +40,7 @@ class UserData {
       balance: map['balance']?.toDouble() ?? 0.0,
       userId: map['userId'] ?? '',
       userName: map['userName'] ?? '',
+      docId: map['docId'] ?? '',
     );
   }
 
