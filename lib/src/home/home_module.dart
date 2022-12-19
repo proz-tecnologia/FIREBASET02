@@ -1,4 +1,7 @@
 import 'package:class_finance_app/src/app_controller.dart';
+import 'package:class_finance_app/src/authentication/create_account/create_account_bloc.dart';
+import 'package:class_finance_app/src/home/create/create_transaction_cubit.dart';
+import 'package:class_finance_app/src/home/create/create_transaction_page.dart';
 import 'package:class_finance_app/src/home/home/home_cubit.dart';
 import 'package:class_finance_app/src/home/home/home_page.dart';
 import 'package:class_finance_app/src/home/repository/home_repository.dart';
@@ -17,6 +20,11 @@ class HomeModule extends Module {
             id: i.get<AppController>().user!.uid,
           ),
         ),
+        Bind.factory<CreateTransactionCubit>(
+          (i) => CreateTransactionCubit(
+            i.get<HomeRepository>(),
+          ),
+        ),
       ];
 
   @override
@@ -24,6 +32,13 @@ class HomeModule extends Module {
         ChildRoute(
           '/',
           child: (_, args) => const HomePage(),
-        )
+        ),
+        ChildRoute(
+          '/create',
+          child: (_, args) => CreateTransaction(
+            transaction: args.data['transaction'],
+            type: args.data['type'],
+          ),
+        ),
       ];
 }

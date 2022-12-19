@@ -6,6 +6,7 @@ class SplashStateLoading extends SplashState {}
 
 class SplashStateLogged extends SplashState {
   User user;
+
   SplashStateLogged({
     required this.user,
   });

@@ -17,8 +17,10 @@ class AuthRepositoryImpl implements AuthRepository {
       password: password,
     );
 
-    await _auth.currentUser!.updateDisplayName(name);
-    await _auth.currentUser!.sendEmailVerification();
+    await Future.wait([
+      _auth.currentUser!.updateDisplayName(name),
+      _auth.currentUser!.sendEmailVerification(),
+    ]);
   }
 
   @override
@@ -43,7 +45,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     return await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
+      email: email,
+      password: password,
+    );
   }
 
   @override

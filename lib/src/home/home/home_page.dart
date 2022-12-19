@@ -1,6 +1,8 @@
 import 'package:class_finance_app/src/home/home/home_cubit.dart';
+import 'package:class_finance_app/src/shared/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../shared/utils/formatter.dart';
@@ -82,6 +84,43 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ),
+      ),
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: ExpandableFab(
+        child: const Icon(Icons.add),
+        distance: 54.0,
+        children: [
+          FloatingActionButton.small(
+            onPressed: () {
+              Modular.to.pushNamed(
+                '/home/create',
+                arguments: {
+                  'type': TransactionType.expense,
+                },
+              );
+            },
+            backgroundColor: Colors.red,
+            child: const Icon(Icons.money_off_csred_sharp),
+          ),
+          FloatingActionButton.small(
+            onPressed: () {
+              Modular.to.pushNamed(
+                '/home/create',
+                arguments: {
+                  'type': TransactionType.received,
+                  'transaction': FinancialTransaction(
+                    type: TransactionType.expense,
+                    value: 25.99,
+                    name: 'Estacionamento',
+                    category: 'Transporte',
+                  )
+                },
+              );
+            },
+            backgroundColor: Colors.green,
+            child: const Icon(Icons.attach_money_sharp),
+          ),
+        ],
       ),
     );
   }
