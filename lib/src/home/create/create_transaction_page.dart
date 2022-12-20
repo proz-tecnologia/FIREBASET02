@@ -10,13 +10,16 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CreateTransaction extends StatefulWidget {
   final FinancialTransaction? transaction;
-  final TransactionType type;
+  final TransactionType? type;
 
   const CreateTransaction({
     super.key,
     this.transaction,
     required this.type,
-  });
+  }) : assert(
+          transaction != null || type != null,
+          'Transaction && type can not be null at the same time',
+        );
 
   @override
   State<CreateTransaction> createState() => _CreateTransactionState();
@@ -142,7 +145,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
               onPressed: () {
                 cubit.createTransaction(
                   transaction: FinancialTransaction(
-                    type: widget.type,
+                    type: widget.transaction?.type ?? widget.type!,
                     value: valueController.numberValue,
                     name: nameController.text,
                     category: categoryController.text,

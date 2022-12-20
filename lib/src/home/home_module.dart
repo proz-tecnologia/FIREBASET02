@@ -23,6 +23,8 @@ class HomeModule extends Module {
         Bind.factory<CreateTransactionCubit>(
           (i) => CreateTransactionCubit(
             i.get<HomeRepository>(),
+            i.get<AppController>().user!.uid,
+            i.get<HomeCubit>().userData!,
           ),
         ),
       ];
