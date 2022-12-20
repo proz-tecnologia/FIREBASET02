@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   FirebaseAuth get _auth => FirebaseAuth.instance;
+  CollectionReference get _firestore =>
+      FirebaseFirestore.instance.collection('users');
   @override
   Future<void> createAccount({
     required String name,
@@ -59,8 +61,10 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> createUserData({required UserData user}) async {
-    await FirebaseFirestore.instance.collection('users').add(
-          user.toMap(),
-        );
+    final response = await _firestore.add(user.toMap());
+
+    await _firestore.doc(response.id).update({
+      'docId': response.id,
+    });
   }
 }
