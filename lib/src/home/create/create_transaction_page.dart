@@ -1,6 +1,7 @@
 import 'package:class_finance_app/src/home/create/create_transaction_cubit.dart';
 import 'package:class_finance_app/src/home/create/create_transaction_state.dart';
 import 'package:class_finance_app/src/shared/models/transaction.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -11,11 +12,13 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class CreateTransaction extends StatefulWidget {
   final FinancialTransaction? transaction;
   final TransactionType? type;
+  final List<String> categories;
 
   const CreateTransaction({
     super.key,
     this.transaction,
     required this.type,
+    this.categories = const <String>[],
   }) : assert(
           transaction != null || type != null,
           'Transaction && type can not be null at the same time',
@@ -28,7 +31,8 @@ class CreateTransaction extends StatefulWidget {
 class _CreateTransactionState extends State<CreateTransaction> {
   late final TextEditingController nameController;
   late final MoneyMaskedTextController valueController;
-  late final TextEditingController categoryController;
+
+  String category = '';
 
   final cubit = Modular.get<CreateTransactionCubit>();
 
@@ -46,6 +50,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
 
   @override
   void initState() {
+    category = widget.transaction?.category ?? widget.categories[0];
     nameController = TextEditingController(
       text: fillValue(
         widget.transaction?.name,
@@ -55,11 +60,6 @@ class _CreateTransactionState extends State<CreateTransaction> {
       precision: 2,
       leftSymbol: 'R\$ ',
       initialValue: widget.transaction?.value ?? 0,
-    );
-    categoryController = TextEditingController(
-      text: fillValue(
-        widget.transaction?.category,
-      ),
     );
 
     super.initState();
@@ -88,6 +88,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
           } else if (state is CreateTransactionStateSuccess) {
             Modular.to.popUntil(ModalRoute.withName('/home/'));
           } else if (state is CreateTransactionStateError) {
+            Navigator.pop(context);
+          } else if (state is CreateCategorySuccess) {
             Navigator.pop(context);
           }
         },
@@ -128,39 +130,52 @@ class _CreateTransactionState extends State<CreateTransaction> {
                 ],
               ),
               const SizedBox(height: 8.0),
-              TextFormField(
-                controller: categoryController,
-                decoration: InputDecoration(
-                  hintText: 'Categoria',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16.0),
+              if (widget.categories.isNotEmpty)
+                DropDownTextField(
+                  // initialValue: category,
+                  enableSearch: true,
+                  dropDownList: widget.categories
+                      .map(
+                        (e) => DropDownValueModel(
+                          value: e,
+                          name: e,
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (!widget.categories.contains('Uber')) {
+                      cubit.createCategory(category: 'Uber');
+                    }
+                    category = value.value;
+                  },
+                ),
+              const SizedBox(
+                height: 120.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    cubit.createTransaction(
+                      transaction: FinancialTransaction(
+                        type: widget.transaction?.type ?? widget.type!,
+                        value: valueController.numberValue,
+                        name: nameController.text,
+                        category: category,
+                        id: widget.transaction?.id,
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(buttonTitle),
+                    ],
                   ),
                 ),
               ),
             ],
-          ),
-          bottomSheet: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                cubit.createTransaction(
-                  transaction: FinancialTransaction(
-                    type: widget.transaction?.type ?? widget.type!,
-                    value: valueController.numberValue,
-                    name: nameController.text,
-                    category: categoryController.text,
-                    id: widget.transaction?.id,
-                  ),
-                );
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(buttonTitle),
-                ],
-              ),
-            ),
           ),
         ),
       ),

@@ -46,4 +46,19 @@ class CreateTransactionCubit extends Cubit<CreateTransactionState> {
       emit(CreateTransactionStateError(exception: e as Exception));
     }
   }
+
+  Future<void> createCategory({
+    required String category,
+  }) async {
+    try {
+      emit(CreateTransactionStateLoading());
+
+      await _repository.createCategory(
+          category: category, docId: userData.docId!);
+
+      emit(CreateCategorySuccess());
+    } catch (e) {
+      emit(CreateTransactionStateError(exception: e as Exception));
+    }
+  }
 }

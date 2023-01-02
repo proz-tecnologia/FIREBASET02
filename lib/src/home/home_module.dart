@@ -1,5 +1,4 @@
 import 'package:class_finance_app/src/app_controller.dart';
-import 'package:class_finance_app/src/authentication/create_account/create_account_bloc.dart';
 import 'package:class_finance_app/src/home/create/create_transaction_cubit.dart';
 import 'package:class_finance_app/src/home/create/create_transaction_page.dart';
 import 'package:class_finance_app/src/home/home/home_cubit.dart';
@@ -40,6 +39,7 @@ class HomeModule extends Module {
           child: (_, args) => CreateTransaction(
             transaction: args.data['transaction'],
             type: args.data['type'],
+            categories: args.data['categories'],
           ),
         ),
       ];

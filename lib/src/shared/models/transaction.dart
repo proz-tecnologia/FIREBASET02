@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum TransactionType { received, expense }
 
@@ -10,14 +10,22 @@ class FinancialTransaction {
   double value;
   String name;
   String category;
+  String? userId;
+  Timestamp? createdAt;
+
+  String get dateFormated => createdAt!.toDate().toLocal().toString();
 
   FinancialTransaction({
     required this.type,
     required this.value,
     required this.name,
     required this.category,
+    this.createdAt,
+    this.userId,
     this.id,
-  });
+  }) {
+    createdAt ??= Timestamp.now();
+  }
 
   FinancialTransaction copyWith({
     double? value,
@@ -25,6 +33,7 @@ class FinancialTransaction {
     String? category,
     TransactionType? type,
     String? id,
+    String? userId,
   }) {
     return FinancialTransaction(
       type: type ?? this.type,
@@ -32,6 +41,7 @@ class FinancialTransaction {
       name: name ?? this.name,
       category: category ?? this.category,
       id: id ?? this.id,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -41,6 +51,9 @@ class FinancialTransaction {
       'name': name,
       'category': category,
       'type': type.name,
+      'userId': userId,
+      'id': id,
+      'createdAt': createdAt,
     };
   }
 
@@ -50,9 +63,11 @@ class FinancialTransaction {
       name: map['name'] ?? '',
       category: map['category'] ?? '',
       id: map['id'] ?? '',
+      userId: map['userId'] ?? '',
       type: map['type'] == 'received'
           ? TransactionType.received
           : TransactionType.expense,
+      createdAt: map['createdAt'],
     );
   }
 

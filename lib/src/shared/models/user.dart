@@ -5,10 +5,12 @@ class UserData {
   final String userId;
   final String userName;
   final String? docId;
+  List<String> categories = const <String>['Alencar', 'Kaio'];
   UserData({
     this.balance = 0.0,
     required this.userId,
     required this.userName,
+    this.categories = const <String>['Alencar', 'Kaio'],
     this.docId,
   });
 
@@ -32,6 +34,7 @@ class UserData {
       'userId': userId,
       'userName': userName,
       'docId': docId,
+      'categories': categories,
     };
   }
 
@@ -41,6 +44,8 @@ class UserData {
       userId: map['userId'] ?? '',
       userName: map['userName'] ?? '',
       docId: map['docId'] ?? '',
+      categories:
+          map.containsKey('categories') ? List.castFrom(map['categories']) : [],
     );
   }
 
