@@ -1,15 +1,12 @@
 import 'package:class_finance_app/src/home/home/home_cubit.dart';
 import 'package:class_finance_app/src/home/home/widgets/home_fab.dart';
 import 'package:class_finance_app/src/home/home/widgets/home_state_success.dart';
-import 'package:class_finance_app/src/shared/models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_modular/flutter_modular.dart'
     hide ModularWatchExtension;
-import 'package:intl/intl.dart';
 
-import '../../shared/utils/formatter.dart';
 import 'home_state.dart';
 
 class HomePage extends StatefulWidget {

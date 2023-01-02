@@ -27,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> {
           transactions: transactions,
         ),
       );
-    } catch (e, s) {
+    } catch (e) {
       emit(HomeStateError());
     }
   }
