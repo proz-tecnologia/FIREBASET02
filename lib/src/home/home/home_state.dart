@@ -1,8 +1,12 @@
 import 'package:class_finance_app/src/shared/models/user.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../shared/models/transaction.dart';
 
-abstract class HomeState {}
+abstract class HomeState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class HomeStateEmpty extends HomeState {}
 
@@ -16,6 +20,12 @@ class HomeStateSuccess extends HomeState {
     required this.user,
     required this.transactions,
   });
+
+  @override
+  List<Object?> get props => [
+        user,
+        transactions,
+      ];
 }
 
 class HomeStateError extends HomeState {}

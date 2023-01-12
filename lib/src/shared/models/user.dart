@@ -44,8 +44,9 @@ class UserData {
       userId: map['userId'] ?? '',
       userName: map['userName'] ?? '',
       docId: map['docId'] ?? '',
-      categories:
-          map.containsKey('categories') ? List.castFrom(map['categories']) : [],
+      categories: map.containsKey('categories') && map['categories'] != null
+          ? List.castFrom(map['categories'])
+          : [],
     );
   }
 
