@@ -16,12 +16,14 @@ class HomeCubitFixture {
       value: 220.0,
       name: 'name',
       category: 'Vendas',
+      id: '12',
     ),
     FinancialTransaction(
       type: TransactionType.received,
       value: 221.0,
       name: 'name',
       category: 'Vendas',
+      id: '31',
     ),
     FinancialTransaction(
       type: TransactionType.received,

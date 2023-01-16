@@ -61,7 +61,10 @@ class FinanceOperationWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8.0),
+            SizedBox(
+              key: Key('SPACER_DATE_NAME_${transaction.id.toString()}'),
+              height: 8.0,
+            ),
             const Divider(),
             const SizedBox(height: 8.0),
             Text(

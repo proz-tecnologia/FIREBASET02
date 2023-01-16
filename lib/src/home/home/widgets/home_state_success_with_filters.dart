@@ -27,23 +27,10 @@ class HomeStateSucessWithFiltersWidget extends StatelessWidget {
             children: [
               Wrap(
                 children: state.user.categories.map((String e) {
-                  return SizedBox(
-                    height: 36.0,
-                    width: 120.0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(
-                        4.0,
-                      ),
-                      child: InkWell(
-                        onTap: () => onSelectItem(e),
-                        child: Chip(
-                          label: Text(e),
-                          backgroundColor: selectedCategories.contains(e)
-                              ? Colors.blue
-                              : null,
-                        ),
-                      ),
-                    ),
+                  return CustomFilterChip(
+                    onSelectItem: onSelectItem,
+                    category: e,
+                    isSelected: selectedCategories.contains(e),
                   );
                 }).toList(),
               ),
@@ -57,6 +44,39 @@ class HomeStateSucessWithFiltersWidget extends StatelessWidget {
           transaction: state.transactions[index],
         );
       },
+    );
+  }
+}
+
+class CustomFilterChip extends StatelessWidget {
+  const CustomFilterChip({
+    Key? key,
+    required this.onSelectItem,
+    required this.category,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final Function(String value) onSelectItem;
+  final String category;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 36.0,
+      width: 120.0,
+      child: Padding(
+        padding: const EdgeInsets.all(
+          4.0,
+        ),
+        child: InkWell(
+          onTap: () => onSelectItem(category),
+          child: Chip(
+            label: Text(category),
+            backgroundColor: isSelected ? Colors.blue : null,
+          ),
+        ),
+      ),
     );
   }
 }
